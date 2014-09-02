@@ -18,9 +18,10 @@
 // gSystem->AddLinkedLibs("/cvmfs/cms.cern.ch/slc5_amd64_gcc472/external/gsl/1.10/lib/libgslcblas.so");
 // gSystem->AddLinkedLibs("/cvmfs/cms.cern.ch/slc5_amd64_gcc472/external/gsl/1.10/lib/libgsl.so");
 
-//TFile *f1;
-//TTree const char* 
-//fin1*duttree;
+ 
+
+
+
 
 void residualDUT(){
 
