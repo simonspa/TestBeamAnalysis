@@ -17,23 +17,19 @@ void recoNtuple(){
   unsigned int    run(-9999);
   unsigned int    tdcPhase(9999);
 
-  std::vector<int> *strip_S0 = 0;
-  std::vector<int> *strip_S1 = 0;
-  std::vector<int> *strip_S2 = 0;
-  std::vector<int> *strip_S3 = 0;
-  std::vector<int> *channel_S0 = 0;
-  std::vector<int> *channel_S1 = 0;
-  std::vector<int> *channel_S2 = 0;
-  std::vector<int> *channel_S3 = 0;
+  std::vector<int> strip_S0;
+  std::vector<int> strip_S1;
+  std::vector<int> strip_S2;
+  std::vector<int> strip_S3;
 
-  TFile *dutFile = TFile::Open("RAW_USC.00000478.0001.A.storageManager.00.0000.root");
+  TFile *dutFile = TFile::Open("../data/RAW_USC.00000478.0001.A.storageManager.00.0000.root");
   TTree *duttree = (TTree *) dutFile->Get("tree");
   duttree->SetBranchAddress("event", &events);
   duttree->SetBranchAddress("run", &run);
-  duttree->SetBranchAddress("dut0_row", &strip_S0);
-  duttree->SetBranchAddress("dut1_row", &strip_S1);
-  duttree->SetBranchAddress("dut2_row", &strip_S2);
-  duttree->SetBranchAddress("dut3_row", &strip_S3);
+  duttree->SetBranchAddress("dut0_row", &strip_S0.front());
+  duttree->SetBranchAddress("dut1_row", &strip_S1.front());
+  duttree->SetBranchAddress("dut2_row", &strip_S2.front());
+  duttree->SetBranchAddress("dut3_row", &strip_S3.front());
   duttree->SetBranchAddress("tdcPhase", &tdcPhase);
 
 
@@ -68,7 +64,7 @@ void recoNtuple(){
   std::vector<int> strips_masked_S2;
   std::vector<int> strips_masked_S3;
 
-  TFile *recofile = new TFile("RECO_USC.00000478.0001.A.storageManager.00.0000.root","RECREATE");
+  TFile *recofile = new TFile("../data/RECO_USC.00000478.0001.A.storageManager.00.0000.root","RECREATE");
   TTree *recotree = new TTree("recotree","reconstructed");
   recotree->Branch("events" , &events );
   recotree->Branch("run" , &run );
@@ -125,7 +121,7 @@ void recoNtuple(){
     std::vector<int> cluster_lastStrip_S3;
 
     // Run over all strips on every module to connect them:
-    for(int k = 0; k < S0_strips_masked.size(); ++k){
+    for(size_t k = 0; k < strips_masked_S0.size(); ++k){
       // ...
     }
 
@@ -170,10 +166,10 @@ void recoNtuple(){
     stubs_M1.clear();
     stubs_M2.clear();
 
-    strips_masked_S0->clear();
-    strips_masked_S1->clear();
-    strips_masked_S2->clear();
-    strips_masked_S3->clear();
+    strips_masked_S0.clear();
+    strips_masked_S1.clear();
+    strips_masked_S2.clear();
+    strips_masked_S3.clear();
 
   } //end of events loop
 
