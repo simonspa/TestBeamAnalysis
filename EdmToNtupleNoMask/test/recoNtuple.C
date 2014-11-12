@@ -17,32 +17,32 @@ void recoNtuple(){
   unsigned int    run(-9999);
   unsigned int    tdcPhase(9999);
 
-  std::vector<int> strip_S0;
-  std::vector<int> strip_S1;
-  std::vector<int> strip_S2;
-  std::vector<int> strip_S3;
+  std::vector<int> *hits_S0 = 0;
+  std::vector<int> *hits_S1;
+  std::vector<int> *hits_S2;
+  std::vector<int> *hits_S3;
 
   TFile *dutFile = TFile::Open("../data/RAW_USC.00000478.0001.A.storageManager.00.0000.root");
   TTree *duttree = (TTree *) dutFile->Get("tree");
   duttree->SetBranchAddress("event", &events);
   duttree->SetBranchAddress("run", &run);
-  duttree->SetBranchAddress("dut0_row", &strip_S0.front());
-  duttree->SetBranchAddress("dut1_row", &strip_S1.front());
-  duttree->SetBranchAddress("dut2_row", &strip_S2.front());
-  duttree->SetBranchAddress("dut3_row", &strip_S3.front());
+  duttree->SetBranchAddress("dut0_row", &hits_S0);
+  duttree->SetBranchAddress("dut1_row", &hits_S1);
+  duttree->SetBranchAddress("dut2_row", &hits_S2);
+  duttree->SetBranchAddress("dut3_row", &hits_S3);
   duttree->SetBranchAddress("tdcPhase", &tdcPhase);
 
 
   // Book all histograms:
-  TH1F *h_row_S0 = new TH1F("row_S0","row_S0", 256, 0. , 256.);
-  TH1F *h_row_S1 = new TH1F("row_S1","row_S1", 256, 0. , 256.);
-  TH1F *h_row_S2 = new TH1F("row_S2","row_S2", 256, 0. , 256.);
-  TH1F *h_row_S3 = new TH1F("row_S3","row_S3", 256, 0. , 256.);
+  TH1F *hitmap_S0 = new TH1F("hitmap_S0","hitmap_S0", 256, 0. , 256.);
+  TH1F *hitmap_S1 = new TH1F("hitmap_S1","hitmap_S1", 256, 0. , 256.);
+  TH1F *hitmap_S2 = new TH1F("hitmap_S2","hitmap_S2", 256, 0. , 256.);
+  TH1F *hitmap_S3 = new TH1F("hitmap_S3","hitmap_S3", 256, 0. , 256.);
 
-  TH1F *h_row_S0_masked = new TH1F("row_S0_masked","row_S0_masked", 256, 0. , 256.);
-  TH1F *h_row_S1_masked = new TH1F("row_S1_masked","row_S1_masked", 256, 0. , 256.);
-  TH1F *h_row_S2_masked = new TH1F("row_S2_masked","row_S2_masked", 256, 0. , 256.);
-  TH1F *h_row_S3_masked = new TH1F("row_S3_masked","row_S3_masked", 256, 0. , 256.);
+  TH1F *hitmap_S0_masked = new TH1F("hitmap_S0_masked","hitmap_S0_masked", 256, 0. , 256.);
+  TH1F *hitmap_S1_masked = new TH1F("hitmap_S1_masked","hitmap_S1_masked", 256, 0. , 256.);
+  TH1F *hitmap_S2_masked = new TH1F("hitmap_S2_masked","hitmap_S2_masked", 256, 0. , 256.);
+  TH1F *hitmap_S3_masked = new TH1F("hitmap_S3_masked","hitmap_S3_masked", 256, 0. , 256.);
 
   TH1F *h_clusters_S2 = new TH1F("clusters_S2","clusters_S2", 256, 0. , 256.);
   TH1F *h_clusters_S3 = new TH1F("clusters_S3","clusters_S3", 256, 0. , 256.);
@@ -59,23 +59,23 @@ void recoNtuple(){
   std::vector<double> clusterposition_S3;
   std::vector<double> stubs_M1;
   std::vector<double> stubs_M2;
-  std::vector<int> strips_valid_S0;
-  std::vector<int> strips_valid_S1;
-  std::vector<int> strips_valid_S2;
-  std::vector<int> strips_valid_S3;
+  std::vector<int> hits_valid_S0;
+  std::vector<int> hits_valid_S1;
+  std::vector<int> hits_valid_S2;
+  std::vector<int> hits_valid_S3;
 
   TFile *recofile = new TFile("../data/RECO_USC.00000478.0001.A.storageManager.00.0000.root","RECREATE");
   TTree *recotree = new TTree("recotree","reconstructed");
   recotree->Branch("events" , &events );
   recotree->Branch("run" , &run );
-  recotree->Branch("row_S0", &strip_S0);
-  recotree->Branch("row_S1", &strip_S1);
-  recotree->Branch("row_S2", &strip_S2);
-  recotree->Branch("row_S3", &strip_S3);
-  recotree->Branch("row_S0_masked", &strips_valid_S0);
-  recotree->Branch("row_S1_masked", &strips_valid_S1);
-  recotree->Branch("row_S2_masked", &strips_valid_S2);
-  recotree->Branch("row_S3_masked", &strips_valid_S3);
+  recotree->Branch("row_S0", &hits_S0);
+  recotree->Branch("row_S1", &hits_S1);
+  recotree->Branch("row_S2", &hits_S2);
+  recotree->Branch("row_S3", &hits_S3);
+  recotree->Branch("row_S0_masked", &hits_valid_S0);
+  recotree->Branch("row_S1_masked", &hits_valid_S1);
+  recotree->Branch("row_S2_masked", &hits_valid_S2);
+  recotree->Branch("row_S3_masked", &hits_valid_S3);
   recotree->Branch("clusters_S0", &clusterposition_S0);
   recotree->Branch("clusters_S1", &clusterposition_S1);
   recotree->Branch("clusters_S2", &clusterposition_S2);
@@ -89,21 +89,22 @@ void recoNtuple(){
   recotree->Branch("tdc", &tdcPhase);
 
 
-
   // The main events loop:
   for (int i = 0; i < duttree->GetEntries(); i++) {
-
+    // Some printout to see where we are:
+    if(i%1000 == 0) std::cout << "Processing event " << i << std::endl;
     duttree->GetEntry(i);
 
     // Masking noisy strips
     // If a strip is "noisy" can be read from the hit map histograms
     // and results in a hardcoded cut on strip numbers.
+    for(size_t hit = 0 ; hit < hits_S0->size(); hit++) hitmap_S0->Fill(hits_S0->at(hit));
+    // ...
 
     // Hint: S0 and S1 have 254 strips each, S2, S3 have 256 strips each.
 
-
     // Store all strips which are fine in vectors for further analyses
-    // strips_valid_S0;
+    // hits_valid_S0;
 
 
     // Clustering
@@ -124,7 +125,7 @@ void recoNtuple(){
     std::vector<int> cluster_lastStrip_S3;
 
     // Run over all strips on every module to connect them:
-    for(size_t k = 0; k < strips_valid_S0.size(); ++k){
+    for(size_t k = 0; k < hits_valid_S0.size(); ++k){
       // ...
     }
 
@@ -169,22 +170,24 @@ void recoNtuple(){
     stubs_M1.clear();
     stubs_M2.clear();
 
-    strips_valid_S0.clear();
-    strips_valid_S1.clear();
-    strips_valid_S2.clear();
-    strips_valid_S3.clear();
+    hits_valid_S0.clear();
+    hits_valid_S1.clear();
+    hits_valid_S2.clear();
+    hits_valid_S3.clear();
 
   } //end of events loop
 
 
   recofile->cd();
 
-  h_row_S0->Write();
-  h_row_S1->Write();
-  h_row_S2->Write();
-  h_row_S3->Write();
-  h_row_S2_masked->Write();
-  h_row_S3_masked->Write();
+  hitmap_S0->Write();
+  hitmap_S1->Write();
+  hitmap_S2->Write();
+  hitmap_S3->Write();
+  hitmap_S0_masked->Write();
+  hitmap_S1_masked->Write();
+  hitmap_S2_masked->Write();
+  hitmap_S3_masked->Write();
   h_clusters_S2->Write();
   h_clusters_S3->Write();
   recotree->Write();
