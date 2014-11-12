@@ -59,10 +59,10 @@ void recoNtuple(){
   std::vector<double> clusterposition_S3;
   std::vector<double> stubs_M1;
   std::vector<double> stubs_M2;
-  std::vector<int> strips_masked_S0;
-  std::vector<int> strips_masked_S1;
-  std::vector<int> strips_masked_S2;
-  std::vector<int> strips_masked_S3;
+  std::vector<int> strips_valid_S0;
+  std::vector<int> strips_valid_S1;
+  std::vector<int> strips_valid_S2;
+  std::vector<int> strips_valid_S3;
 
   TFile *recofile = new TFile("../data/RECO_USC.00000478.0001.A.storageManager.00.0000.root","RECREATE");
   TTree *recotree = new TTree("recotree","reconstructed");
@@ -72,10 +72,10 @@ void recoNtuple(){
   recotree->Branch("row_S1", &strip_S1);
   recotree->Branch("row_S2", &strip_S2);
   recotree->Branch("row_S3", &strip_S3);
-  recotree->Branch("row_S0_masked", &strips_masked_S0);
-  recotree->Branch("row_S1_masked", &strips_masked_S1);
-  recotree->Branch("row_S2_masked", &strips_masked_S2);
-  recotree->Branch("row_S3_masked", &strips_masked_S3);
+  recotree->Branch("row_S0_masked", &strips_valid_S0);
+  recotree->Branch("row_S1_masked", &strips_valid_S1);
+  recotree->Branch("row_S2_masked", &strips_valid_S2);
+  recotree->Branch("row_S3_masked", &strips_valid_S3);
   recotree->Branch("clusters_S0", &clusterposition_S0);
   recotree->Branch("clusters_S1", &clusterposition_S1);
   recotree->Branch("clusters_S2", &clusterposition_S2);
@@ -99,8 +99,11 @@ void recoNtuple(){
     // If a strip is "noisy" can be read from the hit map histograms
     // and results in a hardcoded cut on strip numbers.
 
+    // Hint: S0 and S1 have 254 strips each, S2, S3 have 256 strips each.
+
+
     // Store all strips which are fine in vectors for further analyses
-    // strips_masked_S0;
+    // strips_valid_S0;
 
 
     // Clustering
@@ -121,7 +124,7 @@ void recoNtuple(){
     std::vector<int> cluster_lastStrip_S3;
 
     // Run over all strips on every module to connect them:
-    for(size_t k = 0; k < strips_masked_S0.size(); ++k){
+    for(size_t k = 0; k < strips_valid_S0.size(); ++k){
       // ...
     }
 
@@ -166,10 +169,10 @@ void recoNtuple(){
     stubs_M1.clear();
     stubs_M2.clear();
 
-    strips_masked_S0.clear();
-    strips_masked_S1.clear();
-    strips_masked_S2.clear();
-    strips_masked_S3.clear();
+    strips_valid_S0.clear();
+    strips_valid_S1.clear();
+    strips_valid_S2.clear();
+    strips_valid_S3.clear();
 
   } //end of events loop
 
