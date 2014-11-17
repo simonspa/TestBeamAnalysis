@@ -10,7 +10,7 @@
 #include "TLegend.h"
 #include <iomanip>
 
-void recoNtuple(){
+void reconstruction(){
 
   // Open the raw data file:
   unsigned int    events(-9999);
