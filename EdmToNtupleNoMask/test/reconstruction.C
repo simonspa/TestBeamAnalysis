@@ -18,9 +18,9 @@ void reconstruction(){
   unsigned int    tdcPhase(9999);
 
   std::vector<int> *hits_S0 = 0;
-  std::vector<int> *hits_S1;
-  std::vector<int> *hits_S2;
-  std::vector<int> *hits_S3;
+  std::vector<int> *hits_S1 = 0;
+  std::vector<int> *hits_S2 = 0;
+  std::vector<int> *hits_S3 = 0;
 
   TFile *dutFile = TFile::Open("../data/RAW_USC.00000478.0001.A.storageManager.00.0000.root");
   TTree *duttree = (TTree *) dutFile->Get("tree");
